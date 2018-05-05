@@ -3,9 +3,9 @@ package bankapp;
 public class Main {
 
     public static void main(String[] args) {
-        
-        Menu menu = new Menu();
-        
-        menu.open();
+
+        MainMenu mainMenu = new MainMenu();
+
+        mainMenu.open();
     }
 }
