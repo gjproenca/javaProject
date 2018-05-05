@@ -8,15 +8,17 @@ public class MainMenu {
     }
 
     Scanner input = new Scanner(System.in);
-    boolean validOption = false;
+    MenuManageAccounts menuManageAccounts = new MenuManageAccounts();
+    boolean valid = true;
 
     public void open() {
         String option = "-1";
 
         do {
-            if (validOption) {
+            if (valid) {
                 System.out.println("Escolha uma opção:");
                 options();
+                valid = false;
             } else {
                 System.out.println("\nOpção inserida inválida, escolha uma opção válida:");
                 options();
@@ -25,14 +27,15 @@ public class MainMenu {
             option = input.nextLine();
 
             if (!Parse.tryParseInt(option)) {
-                validOption = false;
+                valid = false;
             } else if (Integer.parseInt(option) >= 0 && Integer.parseInt(option) <= 2) {
-                validOption = true;
+                valid = true;
             }
-        } while (!validOption);
+        } while (!valid);
 
         switch (Integer.parseInt(option)) {
             case 1:
+                menuManageAccounts.open();
                 break;
             case 2:
                 break;
