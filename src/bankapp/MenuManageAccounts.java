@@ -198,6 +198,27 @@ public class MenuManageAccounts {
         open();
     }
 
+    private void alterAccount() {
+        String option = "-1";
+
+        do {
+            if (valid) {
+                System.out.println("Deseja listar as contas (1 - sim/2 - não): ");
+                valid = false;
+            } else {
+                System.out.println("\nOpção inserida inválida, escolha uma opção válida, prima a tecla 1 - sim ou 2 - não: ");
+            }
+
+            option = input.nextLine();
+
+            if (!Parse.tryParseInt(option)) {
+                valid = false;
+            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                valid = true;
+            }
+        } while (!valid);
+    }
+
     private void listAccounts() {
         for (int i = 0; i < list.size(); i++) {
             System.out.println("\nNúmero de conta: " + list.get(i).getAccountNumber());
