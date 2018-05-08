@@ -79,14 +79,32 @@ public class Account {
 
     //methods
     public void deposit() {
-        //TODO: deposit
+        String amount = "0";
+        boolean valid = true;
+
+        do {
+            if (valid) {
+                System.out.print("\nInsira o montante a depositar: ");
+                amount = input.nextLine();
+                valid = false;
+            } else {
+                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                amount = input.nextLine();
+            }
+        } while (!Parse.tryParseDouble(amount));
+
+        if (Double.parseDouble(amount) < 0) {
+            System.out.println("\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!");
+        } else if (Double.parseDouble(amount) >= 0) {
+            balance += Double.parseDouble(amount);
+            System.out.println("\nOperação efetuada com sucesso!");
+        }
 
         this.accoutOperationsCounter += 1;
     }
 
     public void withdraw() {
         String amount = "0";
-        String temp = "";
         boolean valid = true;
 
         do {
@@ -102,12 +120,6 @@ public class Account {
 
         if ((Double.parseDouble(amount) > (balance + credit)) && (Double.parseDouble(amount) >= 0)) {
             System.out.println("\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!");
-        } else if ((Double.parseDouble(amount) >= balance) && (Double.parseDouble(amount) >= 0)) {
-            temp += Double.parseDouble(amount) - balance;
-            amount = temp;
-            balance = 0;
-            credit = credit - Double.parseDouble(amount);
-            System.out.println("\nOperação efetuada com sucesso!");
         } else if (Double.parseDouble(amount) >= 0) {
             balance -= Double.parseDouble(amount);
             System.out.println("\nOperação efetuada com sucesso!");

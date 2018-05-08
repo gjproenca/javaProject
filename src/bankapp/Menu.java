@@ -55,6 +55,9 @@ public class Menu {
             case 5:
                 withdraw(true);
                 break;
+            case 6:
+                deposit(true);
+                break;
             default:
                 System.exit(0);
         }
@@ -432,6 +435,57 @@ public class Menu {
 
                 if (Integer.parseInt(option) == 1) {
                     withdraw(false);
+                }
+            }
+        } else {
+            createAccountEmptyList();
+        }
+
+        if (menu) {
+            open();
+        }
+    }
+
+    private void deposit(boolean menu) {
+        String option = "-1";
+        String accountNumber;
+
+        if (!list.isEmpty()) {
+            optionListAccounts();
+
+            do {
+                if (valid) {
+                    System.out.print("\nInsira o número da conta a depositar dinheiro: ");
+                    accountNumber = input.nextLine();
+                } else {
+                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    accountNumber = input.nextLine();
+                }
+            } while (!Parse.tryParseInt(accountNumber));
+
+            if (accountExists(accountNumber)) {
+                list.get(accountIndex(accountNumber)).deposit();
+                pause();
+            } else {
+                do {
+                    if (valid) {
+                        System.out.println("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        valid = false;
+                    } else {
+                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                    }
+
+                    option = input.nextLine();
+
+                    if (!Parse.tryParseInt(option)) {
+                        valid = false;
+                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                        valid = true;
+                    }
+                } while (!valid);
+
+                if (Integer.parseInt(option) == 1) {
+                    deposit(false);
                 }
             }
         } else {
