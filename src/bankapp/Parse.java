@@ -10,8 +10,8 @@ public class Parse {
             return false;
         }
     }
-    
-        public static boolean tryParseDouble(String value) {
+
+    public static boolean tryParseDouble(String value) {
         try {
             Double.parseDouble(value);
             return true;
