@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //TODO: move code to main
-//FIX: check, if its fixed, (able to input negative values)
-//TODO: check if account movement increments
+//FIX: modify account reset number of account movements
 public class Menu {
 
-    public Menu() {
-    }
 
     private final Scanner input = new Scanner(System.in);
     private boolean valid = true;
-    private ArrayList<Account> list = new ArrayList<>();
+    private final ArrayList<Account> list = new ArrayList<>();
     private int accountNumber = 1;
+    public Menu() {
+    }
 
     public void open() {
         String option = "-1";
@@ -70,7 +69,7 @@ public class Menu {
         System.out.println("4 - Listar contas");
         System.out.println("\n5 - Levantar dinheiro");
         System.out.println("6 - Depositar dinheiro");
-        System.out.println("7 - Consultar saldo");
+        System.out.println("\n7 - Consultar saldo");
         System.out.println("8 - Consultar número de movimentos");
         System.out.println("9 - Consultar detalhes da conta");
         System.out.println("\n0 - Sair");
@@ -221,7 +220,7 @@ public class Menu {
 
     private void alterAccount(boolean menu) {
         String option = "-1";
-        String accountNumber;
+        String accountNumberLocal;
 
         if (!list.isEmpty()) {
             optionListAccounts();
@@ -229,16 +228,16 @@ public class Menu {
             do {
                 if (valid) {
                     System.out.print("\nInsira o número da conta a alterar: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 }
-            } while (!Parse.tryParseInt(accountNumber));
+            } while (!Parse.tryParseInt(accountNumberLocal));
 
-            if (accountExists(accountNumber)) {
-                list.remove(accountIndex(accountNumber));
-                createAccount(false, Integer.parseInt(accountNumber));
+            if (accountExists(accountNumberLocal)) {
+                list.remove(accountIndex(accountNumberLocal));
+                createAccount(false, Integer.parseInt(accountNumberLocal));
             } else {
                 do {
                     if (valid) {
@@ -320,7 +319,7 @@ public class Menu {
 
     private void deleteAccount(boolean menu) {
         String option = "-1";
-        String accountNumber;
+        String accountNumberLocal;
 
         if (!list.isEmpty()) {
             optionListAccounts();
@@ -328,15 +327,15 @@ public class Menu {
             do {
                 if (valid) {
                     System.out.print("\nInsira o número da conta a apagar: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 }
-            } while (!Parse.tryParseInt(accountNumber));
+            } while (!Parse.tryParseInt(accountNumberLocal));
 
-            if (accountExists(accountNumber)) {
-                list.remove(accountIndex(accountNumber));
+            if (accountExists(accountNumberLocal)) {
+                list.remove(accountIndex(accountNumberLocal));
                 System.out.println("\nConta apagada com sucesso!");
                 pause();
             } else {
@@ -397,7 +396,7 @@ public class Menu {
 
     private void withdraw(boolean menu) {
         String option = "-1";
-        String accountNumber;
+        String accountNumberLocal;
 
         if (!list.isEmpty()) {
             optionListAccounts();
@@ -405,20 +404,20 @@ public class Menu {
             do {
                 if (valid) {
                     System.out.print("\nInsira o número da conta a levantar dinheiro: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 }
-            } while (!Parse.tryParseInt(accountNumber));
+            } while (!Parse.tryParseInt(accountNumberLocal));
 
-            if (accountExists(accountNumber)) {
-                list.get(accountIndex(accountNumber)).withdraw();
+            if (accountExists(accountNumberLocal)) {
+                list.get(accountIndex(accountNumberLocal)).withdraw();
                 pause();
             } else {
                 do {
                     if (valid) {
-                        System.out.println("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
                         valid = false;
                     } else {
                         System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
@@ -448,7 +447,7 @@ public class Menu {
 
     private void deposit(boolean menu) {
         String option = "-1";
-        String accountNumber;
+        String accountNumberLocal;
 
         if (!list.isEmpty()) {
             optionListAccounts();
@@ -456,15 +455,15 @@ public class Menu {
             do {
                 if (valid) {
                     System.out.print("\nInsira o número da conta a depositar dinheiro: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
-                    accountNumber = input.nextLine();
+                    accountNumberLocal = input.nextLine();
                 }
-            } while (!Parse.tryParseInt(accountNumber));
+            } while (!Parse.tryParseInt(accountNumberLocal));
 
-            if (accountExists(accountNumber)) {
-                list.get(accountIndex(accountNumber)).deposit();
+            if (accountExists(accountNumberLocal)) {
+                list.get(accountIndex(accountNumberLocal)).deposit();
                 pause();
             } else {
                 do {
