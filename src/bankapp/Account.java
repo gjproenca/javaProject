@@ -5,10 +5,9 @@ import java.util.Scanner;
 public class Account {
 
     //constructor
-    public Account(int accountNumber, String custumerName, String custumerPhoneNumber, String nib, double balance, double credit) {
+    public Account(int accountNumber, Client clientDetails, String nib, double balance, double credit) {
         this.accountNumber = accountNumber;
-        this.custumerName = custumerName;
-        this.custumerPhoneNumber = custumerPhoneNumber;
+        this.clientDetails = clientDetails;
         this.nib = nib;
         this.balance = balance;
         this.credit = credit;
@@ -20,8 +19,7 @@ public class Account {
     //atributes
     private final Scanner input = new Scanner(System.in);
     private int accountNumber = 0;
-    private String custumerName;
-    private String custumerPhoneNumber;
+    private Client clientDetails;
     private String nib;
     private double balance = 0;
     private double credit = 0;
@@ -33,20 +31,12 @@ public class Account {
         return accountNumber;
     }
 
-    public String getCustumerName() {
-        return custumerName;
+    public Client getClientDetails() {
+        return clientDetails;
     }
 
-    public void setCustumerName(String custumerName) {
-        this.custumerName = custumerName;
-    }
-
-    public String getCustumerPhoneNumber() {
-        return custumerPhoneNumber;
-    }
-
-    public void setCustumerPhoneNumber(String custumerPhoneNumber) {
-        this.custumerPhoneNumber = custumerPhoneNumber;
+    public void setClientDetails(Client clientDetails) {
+        this.clientDetails = clientDetails;
     }
 
     public String getNib() {

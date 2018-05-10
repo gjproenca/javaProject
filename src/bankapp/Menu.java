@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //TODO: move code to main
+//TODO: add set variable to 0 if its false
 //FIX: modify account reset number of account movements
 public class Menu {
 
@@ -210,7 +211,7 @@ public class Menu {
         } while (Double.parseDouble(credit) < 0);
         valid = true;
 
-        list.add(new Account(accountNumber, custumerName, custumerPhoneNumber, nib, Double.parseDouble(balance), Double.parseDouble(credit)));
+        list.add(new Account(accountNumber, new Client(custumerName, custumerPhoneNumber), nib, Double.parseDouble(balance), Double.parseDouble(credit)));
 
         if (menu) {
             this.accountNumber++;
@@ -295,8 +296,8 @@ public class Menu {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 System.out.println("\nNúmero de conta: " + list.get(i).getAccountNumber());
-                System.out.println("Nome do cliente: " + list.get(i).getCustumerName());
-                System.out.println("Número de telefone: " + list.get(i).getCustumerPhoneNumber());
+                System.out.println("Nome do cliente: " + list.get(i).getClientDetails().getCustumerName());
+                System.out.println("Número de telefone: " + list.get(i).getClientDetails().getCustumerPhoneNumber());
                 System.out.println("NIB: " + list.get(i).getNib());
                 System.out.println("Saldo: " + list.get(i).getBalance());
                 System.out.println("Plafond de crédito: " + list.get(i).getCredit());
