@@ -6,7 +6,6 @@ import java.util.Scanner;
 //TODO: move code to main
 //TODO: add set variable to 0 if its false
 //FIX: modify account reset number of account movements
-//TODO: extract 'esta conta nao existe' to its own method
 public class Menu {
 
     private Scanner input = new Scanner(System.in);
@@ -234,27 +233,8 @@ public class Menu {
             if (accountExists(accountNumberLocal)) {
                 list.remove(accountIndex(accountNumberLocal));
                 createAccount(false, Integer.parseInt(accountNumberLocal));
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2 - não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2 - não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    editAccount(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                editAccount(false);
             }
 
             valid = true;
@@ -265,6 +245,33 @@ public class Menu {
         if (menu) {
             open();
         }
+    }
+
+    private boolean insertNewAccountNumberOption() {
+        String option = "-1";
+
+        do {
+            if (valid) {
+                System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2 - não)? ");
+                valid = false;
+            } else {
+                System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2 - não)? ");
+            }
+
+            option = input.nextLine();
+
+            if (!Parse.tryParseInt(option)) {
+                valid = false;
+            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                valid = true;
+            }
+        } while (!valid);
+
+        if (Integer.parseInt(option) == 1) {
+            return true;
+        }
+
+        return false;
     }
 
     private int accountIndex(String accountNumber) throws NumberFormatException {
@@ -334,27 +341,8 @@ public class Menu {
                 list.remove(accountIndex(accountNumberLocal));
                 System.out.println("\nConta apagada com sucesso!");
                 pause();
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    deleteAccount(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                deleteAccount(false);
             }
         } else {
             createAccountEmptyList();
@@ -410,27 +398,8 @@ public class Menu {
             if (accountExists(accountNumberLocal)) {
                 list.get(accountIndex(accountNumberLocal)).withdraw();
                 pause();
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    withdraw(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                withdraw(false);
             }
         } else {
             createAccountEmptyList();
@@ -461,27 +430,8 @@ public class Menu {
             if (accountExists(accountNumberLocal)) {
                 list.get(accountIndex(accountNumberLocal)).deposit();
                 pause();
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    deposit(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                deposit(false);
             }
         } else {
             createAccountEmptyList();
@@ -543,27 +493,8 @@ public class Menu {
                     }
                 }
                 pause();
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    checkBalance(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                checkBalance(false);
             }
         } else {
             createAccountEmptyList();
@@ -600,27 +531,8 @@ public class Menu {
                     }
                 }
                 pause();
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    checkNumberTransactions(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                checkNumberTransactions(false);
             }
         } else {
             createAccountEmptyList();
@@ -662,27 +574,8 @@ public class Menu {
                     }
                 }
                 pause();
-            } else {
-                do {
-                    if (valid) {
-                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                        valid = false;
-                    } else {
-                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
-                    }
-
-                    option = input.nextLine();
-
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
-
-                if (Integer.parseInt(option) == 1) {
-                    checkAccountDetails(false);
-                }
+            } else if (insertNewAccountNumberOption()) {
+                checkAccountDetails(false);
             }
         } else {
             createAccountEmptyList();
