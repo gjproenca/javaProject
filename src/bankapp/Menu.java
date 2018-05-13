@@ -45,7 +45,7 @@ public class Menu {
                 createAccount(true, this.accountNumber);
                 break;
             case 2:
-                alterAccount(true);
+                editAccount(true);
                 break;
             case 3:
                 deleteAccount(true);
@@ -214,7 +214,7 @@ public class Menu {
         }
     }
 
-    private void alterAccount(boolean menu) {
+    private void editAccount(boolean menu) {
         String option = "-1";
         String accountNumberLocal;
 
@@ -253,7 +253,7 @@ public class Menu {
                 } while (!valid);
 
                 if (Integer.parseInt(option) == 1) {
-                    alterAccount(false);
+                    editAccount(false);
                 }
             }
 
@@ -539,6 +539,7 @@ public class Menu {
                         System.out.println("Saldo: " + i.getBalance());
                         System.out.println("Plafond de crédito: " + i.getCredit());
                         System.out.println("Saldo total: " + (i.getBalance() + i.getCredit()));
+                        break;
                     }
                 }
                 pause();
@@ -595,6 +596,7 @@ public class Menu {
                     if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
                         System.out.println("\nNIB: " + i.getNib());
                         System.out.println("Total de movimentos: " + i.getAccoutTransactionsCounter());
+                        break;
                     }
                 }
                 pause();
@@ -648,13 +650,16 @@ public class Menu {
 
             if (accountExists(accountNumberLocal)) {
                 for (Account i : list) {
-                    System.out.println("\nNúmero de conta: " + i.getAccountNumber());
-                    System.out.println("Nome do cliente: " + i.getClientDetails().getCustumerName());
-                    System.out.println("Número de telefone: " + i.getClientDetails().getCustumerPhoneNumber());
-                    System.out.println("NIB: " + i.getNib());
-                    System.out.println("Saldo: " + i.getBalance());
-                    System.out.println("Plafond de crédito: " + i.getCredit());
-                    System.out.println("Número de movimentos da conta: " + i.getAccoutTransactionsCounter());
+                    if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
+                        System.out.println("\nNúmero de conta: " + i.getAccountNumber());
+                        System.out.println("Nome do cliente: " + i.getClientDetails().getCustumerName());
+                        System.out.println("Número de telefone: " + i.getClientDetails().getCustumerPhoneNumber());
+                        System.out.println("NIB: " + i.getNib());
+                        System.out.println("Saldo: " + i.getBalance());
+                        System.out.println("Plafond de crédito: " + i.getCredit());
+                        System.out.println("Número de movimentos da conta: " + i.getAccoutTransactionsCounter());
+                        break;
+                    }
                 }
                 pause();
             } else {
