@@ -23,7 +23,7 @@ public class Account {
     private String nib;
     private double balance = 0;
     private double credit = 0;
-    private int accoutOperationsCounter = 0;
+    private int accoutTransactionsCounter = 0;
     private boolean valid = true;
 
     //getters and setters
@@ -63,8 +63,8 @@ public class Account {
         this.credit = credit;
     }
 
-    public int getAccoutOperationsCounter() {
-        return accoutOperationsCounter;
+    public int getAccoutTransactionsCounter() {
+        return accoutTransactionsCounter;
     }
 
     //methods
@@ -84,13 +84,15 @@ public class Account {
         } while (!Parse.tryParseDouble(amount));
 
         if (Double.parseDouble(amount) < 0) {
+            System.out.println("\nNão foi possível realizar a operação, montante inválido!");
+        } else if (Double.parseDouble(amount) < 0) {
             System.out.println("\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!");
         } else if (Double.parseDouble(amount) >= 0) {
             balance += Double.parseDouble(amount);
             System.out.println("\nOperação efetuada com sucesso!");
         }
 
-        this.accoutOperationsCounter += 1;
+        accoutTransactionsCounter += 1;
     }
 
     public void withdraw() {
@@ -108,14 +110,16 @@ public class Account {
             }
         } while (!Parse.tryParseDouble(amount));
 
-        if ((Double.parseDouble(amount) > (balance + credit)) && (Double.parseDouble(amount) >= 0)) {
+        if (Double.parseDouble(amount) < 0) {
+            System.out.println("\nNão foi possível realizar a operação, montante introduzido iválido!");
+        } else if ((Double.parseDouble(amount) > (balance + credit)) && (Double.parseDouble(amount) >= 0)) {
             System.out.println("\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!");
         } else if (Double.parseDouble(amount) >= 0) {
             balance -= Double.parseDouble(amount);
             System.out.println("\nOperação efetuada com sucesso!");
         }
 
-        accoutOperationsCounter += 1;
+        accoutTransactionsCounter += 1;
     }
 
 }

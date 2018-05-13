@@ -6,13 +6,14 @@ import java.util.Scanner;
 //TODO: move code to main
 //TODO: add set variable to 0 if its false
 //FIX: modify account reset number of account movements
+//TODO: extract 'esta conta nao existe' to its own method
 public class Menu {
 
-
-    private final Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
     private boolean valid = true;
-    private final ArrayList<Account> list = new ArrayList<>();
+    private ArrayList<Account> list = new ArrayList<>();
     private int accountNumber = 1;
+
     public Menu() {
     }
 
@@ -58,6 +59,15 @@ public class Menu {
             case 6:
                 deposit(true);
                 break;
+            case 7:
+                checkBalance(true);
+                break;
+            case 8:
+                checkNumberTransactions(true);
+                break;
+            case 9:
+                checkAccountDetails(true);
+                break;
             default:
                 System.exit(0);
         }
@@ -90,17 +100,10 @@ public class Menu {
 
         do {
             if (valid) {
-                System.out.println("\nEscolha uma opção:");
-                System.out.println("1 - Inserir número de telefone");
-                System.out.println("2 - Gerar número de telefone");
-                System.out.print("\nOpção: ");
+                System.out.print("\nDeseja (1 - Inserir número de telefone) ou (2 - Gerar número de telefone): ");
                 valid = false;
             } else {
-                System.out.println("\nOpção inserida inválida, escolha uma opção válida:");
-                System.out.println("Escolha uma opção:");
-                System.out.println("1 - Inserir número de telefone");
-                System.out.println("2 - Gerar número de telefone");
-                System.out.print("\nOpção: ");
+                System.out.print("\nOpção inserida inválida, deseja (1 - Inserir número de telefone) ou (2 - Gerar número de telefone): ");
             }
 
             option = input.nextLine();
@@ -137,18 +140,10 @@ public class Menu {
 
         do {
             if (valid) {
-                //TODO: join option into one line
-                System.out.println("\nEscolha uma opção:");
-                System.out.println("1 - Inserir NIB");
-                System.out.println("2 - Gerar NIB");
-                System.out.print("\nOpção: ");
+                System.out.print("\nDeseja (1 - Inserir NIB) ou (2 - Gerar NIB): ");
                 valid = false;
             } else {
-                //TODO: join option into one line
-                System.out.println("\nOpção inserida inválida, escolha uma opção válida:");
-                System.out.println("1 - Inserir NIB");
-                System.out.println("2 - Gerar NIB");
-                System.out.print("\nOpção: ");
+                System.out.print("\nOpção inserida inválida, deseja (1 - Inserir NIB) ou (2 - Gerar NIB): ");
             }
 
             option = input.nextLine();
@@ -228,7 +223,7 @@ public class Menu {
 
             do {
                 if (valid) {
-                    System.out.print("\nInsira o número da conta a alterar: ");
+                    System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
@@ -294,14 +289,14 @@ public class Menu {
         String option = "-1";
 
         if (!list.isEmpty()) {
-            for (int i = 0; i < list.size(); i++) {
-                System.out.println("\nNúmero de conta: " + list.get(i).getAccountNumber());
-                System.out.println("Nome do cliente: " + list.get(i).getClientDetails().getCustumerName());
-                System.out.println("Número de telefone: " + list.get(i).getClientDetails().getCustumerPhoneNumber());
-                System.out.println("NIB: " + list.get(i).getNib());
-                System.out.println("Saldo: " + list.get(i).getBalance());
-                System.out.println("Plafond de crédito: " + list.get(i).getCredit());
-                System.out.println("Número de movimentos da conta: " + list.get(i).getAccoutOperationsCounter());
+            for (Account i : list) {
+                System.out.println("\nNúmero de conta: " + i.getAccountNumber());
+                System.out.println("Nome do cliente: " + i.getClientDetails().getCustumerName());
+                System.out.println("Número de telefone: " + i.getClientDetails().getCustumerPhoneNumber());
+                System.out.println("NIB: " + i.getNib());
+                System.out.println("Saldo: " + i.getBalance());
+                System.out.println("Plafond de crédito: " + i.getCredit());
+                System.out.println("Número de movimentos da conta: " + i.getAccoutTransactionsCounter());
             }
             pause();
         } else {
@@ -327,7 +322,7 @@ public class Menu {
 
             do {
                 if (valid) {
-                    System.out.print("\nInsira o número da conta a apagar: ");
+                    System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
@@ -342,7 +337,7 @@ public class Menu {
             } else {
                 do {
                     if (valid) {
-                        System.out.println("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
                         valid = false;
                     } else {
                         System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
@@ -404,7 +399,7 @@ public class Menu {
 
             do {
                 if (valid) {
-                    System.out.print("\nInsira o número da conta a levantar dinheiro: ");
+                    System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
@@ -455,7 +450,7 @@ public class Menu {
 
             do {
                 if (valid) {
-                    System.out.print("\nInsira o número da conta a depositar dinheiro: ");
+                    System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
                     System.out.print("Valor inserido inválido, insira um valor válido: ");
@@ -469,7 +464,7 @@ public class Menu {
             } else {
                 do {
                     if (valid) {
-                        System.out.println("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
                         valid = false;
                     } else {
                         System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
@@ -517,6 +512,179 @@ public class Menu {
         } while (!valid);
         if (Integer.parseInt(option) == 1) {
             listAccounts(false);
+        }
+    }
+
+    private void checkBalance(boolean menu) {
+        String option = "-1";
+        String accountNumberLocal;
+
+        if (!list.isEmpty()) {
+            optionListAccounts();
+
+            do {
+                if (valid) {
+                    System.out.print("\nInsira o número da conta: ");
+                    accountNumberLocal = input.nextLine();
+                } else {
+                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    accountNumberLocal = input.nextLine();
+                }
+            } while (!Parse.tryParseInt(accountNumberLocal));
+
+            if (accountExists(accountNumberLocal)) {
+                for (Account i : list) {
+                    if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
+                        System.out.println("\nNIB: " + i.getNib());
+                        System.out.println("Saldo: " + i.getBalance());
+                        System.out.println("Plafond de crédito: " + i.getCredit());
+                        System.out.println("Saldo total: " + (i.getBalance() + i.getCredit()));
+                    }
+                }
+                pause();
+            } else {
+                do {
+                    if (valid) {
+                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        valid = false;
+                    } else {
+                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                    }
+
+                    option = input.nextLine();
+
+                    if (!Parse.tryParseInt(option)) {
+                        valid = false;
+                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                        valid = true;
+                    }
+                } while (!valid);
+
+                if (Integer.parseInt(option) == 1) {
+                    checkBalance(false);
+                }
+            }
+        } else {
+            createAccountEmptyList();
+        }
+
+        if (menu) {
+            open();
+        }
+    }
+
+    private void checkNumberTransactions(boolean menu) {
+        String option = "-1";
+        String accountNumberLocal;
+
+        if (!list.isEmpty()) {
+            optionListAccounts();
+
+            do {
+                if (valid) {
+                    System.out.print("\nInsira o número: ");
+                    accountNumberLocal = input.nextLine();
+                } else {
+                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    accountNumberLocal = input.nextLine();
+                }
+            } while (!Parse.tryParseInt(accountNumberLocal));
+
+            if (accountExists(accountNumberLocal)) {
+                for (Account i : list) {
+                    if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
+                        System.out.println("\nNIB: " + i.getNib());
+                        System.out.println("Total de movimentos: " + i.getAccoutTransactionsCounter());
+                    }
+                }
+                pause();
+            } else {
+                do {
+                    if (valid) {
+                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        valid = false;
+                    } else {
+                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                    }
+
+                    option = input.nextLine();
+
+                    if (!Parse.tryParseInt(option)) {
+                        valid = false;
+                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                        valid = true;
+                    }
+                } while (!valid);
+
+                if (Integer.parseInt(option) == 1) {
+                    checkNumberTransactions(false);
+                }
+            }
+        } else {
+            createAccountEmptyList();
+        }
+
+        if (menu) {
+            open();
+        }
+    }
+
+    private void checkAccountDetails(boolean menu) {
+        String option = "-1";
+        String accountNumberLocal;
+
+        if (!list.isEmpty()) {
+            optionListAccounts();
+
+            do {
+                if (valid) {
+                    System.out.print("\nInsira o número: ");
+                    accountNumberLocal = input.nextLine();
+                } else {
+                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    accountNumberLocal = input.nextLine();
+                }
+            } while (!Parse.tryParseInt(accountNumberLocal));
+
+            if (accountExists(accountNumberLocal)) {
+                for (Account i : list) {
+                    System.out.println("\nNúmero de conta: " + i.getAccountNumber());
+                    System.out.println("Nome do cliente: " + i.getClientDetails().getCustumerName());
+                    System.out.println("Número de telefone: " + i.getClientDetails().getCustumerPhoneNumber());
+                    System.out.println("NIB: " + i.getNib());
+                    System.out.println("Saldo: " + i.getBalance());
+                    System.out.println("Plafond de crédito: " + i.getCredit());
+                    System.out.println("Número de movimentos da conta: " + i.getAccoutTransactionsCounter());
+                }
+                pause();
+            } else {
+                do {
+                    if (valid) {
+                        System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                        valid = false;
+                    } else {
+                        System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2-não)? ");
+                    }
+
+                    option = input.nextLine();
+
+                    if (!Parse.tryParseInt(option)) {
+                        valid = false;
+                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                        valid = true;
+                    }
+                } while (!valid);
+
+                if (Integer.parseInt(option) == 1) {
+                    checkAccountDetails(false);
+                }
+            }
+        } else {
+            createAccountEmptyList();
+        }
+
+        if (menu) {
+            open();
         }
     }
 
