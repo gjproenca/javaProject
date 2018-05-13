@@ -1,5 +1,5 @@
 package bankapp;
-
+//TODO: return 0 if false
 public class Parse {
 
     public static boolean tryParseInt(String value) {

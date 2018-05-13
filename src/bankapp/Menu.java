@@ -2,10 +2,9 @@ package bankapp;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 
 //TODO: move code to main
-//TODO: add set variable to 0 if its false
-//FIX: modify account reset number of account movements
 public class Menu {
 
     private Scanner input = new Scanner(System.in);
@@ -216,6 +215,7 @@ public class Menu {
     private void editAccount(boolean menu) {
         String option = "-1";
         String accountNumberLocal;
+        String accountTransactionsCounter = "0";
 
         if (!list.isEmpty()) {
             optionListAccounts();
@@ -231,8 +231,33 @@ public class Menu {
             } while (!Parse.tryParseInt(accountNumberLocal));
 
             if (accountExists(accountNumberLocal)) {
+                accountTransactionsCounter += list.get(accountIndex(accountNumberLocal)).getAccountTransactionsCounter();
                 list.remove(accountIndex(accountNumberLocal));
                 createAccount(false, Integer.parseInt(accountNumberLocal));
+                do {
+                    if (valid) {
+                        System.out.print("\nDeseja repor o contador de movimentos (1 - sim/2 - não)? ");
+                        valid = false;
+                    } else {
+                        System.out.print("Opção inserida inválida, deseja repor o contador de movimentos (1 - sim/2 - não)? ");
+                    }
+
+                    option = input.nextLine();
+
+                    if (!Parse.tryParseInt(option)) {
+                        valid = false;
+                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
+                        valid = true;
+                    }
+                } while (!valid);
+                if (Integer.parseInt(option) == 1) {
+                    for (Account i : list) {
+                        if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
+                            i.setAccountTransactionsCounter(accountTransactionsCounter);
+                            break;
+                        }
+                    }
+                }
             } else if (insertNewAccountNumberOption()) {
                 editAccount(false);
             }
@@ -303,7 +328,7 @@ public class Menu {
                 System.out.println("NIB: " + i.getNib());
                 System.out.println("Saldo: " + i.getBalance());
                 System.out.println("Plafond de crédito: " + i.getCredit());
-                System.out.println("Número de movimentos da conta: " + i.getAccoutTransactionsCounter());
+                System.out.println("Número de movimentos da conta: " + i.getAccountTransactionsCounter());
             }
             pause();
         } else {
@@ -526,7 +551,7 @@ public class Menu {
                 for (Account i : list) {
                     if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
                         System.out.println("\nNIB: " + i.getNib());
-                        System.out.println("Total de movimentos: " + i.getAccoutTransactionsCounter());
+                        System.out.println("Total de movimentos: " + i.getAccountTransactionsCounter());
                         break;
                     }
                 }
@@ -569,7 +594,7 @@ public class Menu {
                         System.out.println("NIB: " + i.getNib());
                         System.out.println("Saldo: " + i.getBalance());
                         System.out.println("Plafond de crédito: " + i.getCredit());
-                        System.out.println("Número de movimentos da conta: " + i.getAccoutTransactionsCounter());
+                        System.out.println("Número de movimentos da conta: " + i.getAccountTransactionsCounter());
                         break;
                     }
                 }

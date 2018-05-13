@@ -23,7 +23,7 @@ public class Account {
     private String nib;
     private double balance = 0;
     private double credit = 0;
-    private int accoutTransactionsCounter = 0;
+    private int accountTransactionsCounter = 0;
     private boolean valid = true;
 
     //getters and setters
@@ -63,10 +63,14 @@ public class Account {
         this.credit = credit;
     }
 
-    public int getAccoutTransactionsCounter() {
-        return accoutTransactionsCounter;
+    public int getAccountTransactionsCounter() {
+        return accountTransactionsCounter;
     }
 
+    public void setAccountTransactionsCounter(String accountTransactionsCounter){
+        this.accountTransactionsCounter = Integer.parseInt(accountTransactionsCounter);
+    }
+    
     //methods
     public void deposit() {
         String amount = "0";
@@ -92,7 +96,7 @@ public class Account {
             System.out.println("\nOperação efetuada com sucesso!");
         }
 
-        accoutTransactionsCounter += 1;
+        accountTransactionsCounter += 1;
     }
 
     public void withdraw() {
@@ -119,7 +123,7 @@ public class Account {
             System.out.println("\nOperação efetuada com sucesso!");
         }
 
-        accoutTransactionsCounter += 1;
+        accountTransactionsCounter += 1;
     }
 
 }
