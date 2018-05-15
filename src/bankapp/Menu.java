@@ -2,9 +2,7 @@ package bankapp;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
 
-//TODO: move code to main
 public class Menu {
 
     private Scanner input = new Scanner(System.in);
@@ -30,13 +28,8 @@ public class Menu {
 
             option = input.nextLine();
 
-            //TODO: extract option into method with range
-            if (!Parse.tryParseInt(option)) {
-                valid = false;
-            } else if (Integer.parseInt(option) >= 0 && Integer.parseInt(option) <= 9) {
-                valid = true;
-            }
-        } while (!valid);
+        } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 0 || Integer.parseInt(option) > 9));
+        valid = true;
 
         switch (Integer.parseInt(option)) {
             case 1:
@@ -93,8 +86,16 @@ public class Menu {
         String balance;
         String credit;
 
-        System.out.print("\nInsira o nome do cliente: ");
-        custumerName = input.nextLine();
+        do {
+            if (valid) {
+                System.out.print("\nInsira o nome do cliente: ");
+                valid = false;
+            } else {
+                System.out.print("\nNome inválido, insira o nome do cliente: ");
+            }
+            custumerName = input.nextLine();
+        } while (custumerName.isEmpty());
+        valid = true;
 
         do {
             if (valid) {
@@ -106,12 +107,8 @@ public class Menu {
 
             option = input.nextLine();
 
-            if (!Parse.tryParseInt(option)) {
-                valid = false;
-            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                valid = true;
-            }
-        } while (!valid);
+        } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
+        valid = true;
 
         switch (Integer.parseInt(option)) {
             case 1:
@@ -124,7 +121,7 @@ public class Menu {
                         System.out.print("Número inválido, insira um número com 9 algarismos: ");
                         custumerPhoneNumber = input.nextLine();
                     }
-                } while (!Parse.tryParseInt(custumerPhoneNumber) || custumerPhoneNumber.length() != 9);
+                } while (!Parse.tryParseLong(custumerPhoneNumber) || custumerPhoneNumber.length() != 9);
                 valid = true;
                 break;
             case 2:
@@ -146,12 +143,8 @@ public class Menu {
 
             option = input.nextLine();
 
-            if (!Parse.tryParseInt(option)) {
-                valid = false;
-            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                valid = true;
-            }
-        } while (!valid);
+        } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
+        valid = true;
 
         switch (Integer.parseInt(option)) {
             case 1:
@@ -164,7 +157,7 @@ public class Menu {
                         System.out.print("NIB inválido, insira um nib com 21 algarismos: ");
                         nib = input.nextLine();
                     }
-                } while (!Parse.tryParseDouble(nib) || nib.length() != 21);
+                } while (!Parse.tryParseDouble(nib) || nib.length() != 21 || Double.parseDouble(nib) % 1 != 0);
                 valid = true;
                 break;
             case 2:
@@ -177,31 +170,27 @@ public class Menu {
         }
 
         do {
-            do {
-                if (valid) {
-                    System.out.print("\nInsira um montante para o saldo: ");
-                    balance = input.nextLine();
-                    valid = false;
-                } else {
-                    System.out.print("Montante inserido invalido, insira um montante valido: ");
-                    balance = input.nextLine();
-                }
-            } while (!Parse.tryParseDouble(balance));
-        } while (Double.parseDouble(balance) < 0);
+            if (valid) {
+                System.out.print("\nInsira um montante para o saldo: ");
+                balance = input.nextLine();
+                valid = false;
+            } else {
+                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                balance = input.nextLine();
+            }
+        } while (!Parse.tryParseDouble(balance) || Double.parseDouble(balance) < 0);
         valid = true;
 
         do {
-            do {
-                if (valid) {
-                    System.out.print("\nInsira um montante para o credito: ");
-                    credit = input.nextLine();
-                    valid = false;
-                } else {
-                    System.out.print("Montante inserido invalido, insira um montante valido: ");
-                    credit = input.nextLine();
-                }
-            } while (!Parse.tryParseDouble(credit));
-        } while (Double.parseDouble(credit) < 0);
+            if (valid) {
+                System.out.print("\nInsira um montante para o credito: ");
+                credit = input.nextLine();
+                valid = false;
+            } else {
+                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                credit = input.nextLine();
+            }
+        } while (!Parse.tryParseDouble(credit) || Double.parseDouble(credit) < 0);
         valid = true;
 
         list.add(new Account(accountNumber, new Client(custumerName, custumerPhoneNumber), nib, Double.parseDouble(balance), Double.parseDouble(credit)));
@@ -244,12 +233,9 @@ public class Menu {
 
                     option = input.nextLine();
 
-                    if (!Parse.tryParseInt(option)) {
-                        valid = false;
-                    } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                        valid = true;
-                    }
-                } while (!valid);
+                } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
+                valid = true;
+
                 if (Integer.parseInt(option) == 1) {
                     for (Account i : list) {
                         if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
@@ -284,18 +270,12 @@ public class Menu {
             }
 
             option = input.nextLine();
-
-            if (!Parse.tryParseInt(option)) {
-                valid = false;
-            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                valid = true;
-            }
-        } while (!valid);
+        } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
+        valid = true;
 
         if (Integer.parseInt(option) == 1) {
             return true;
         }
-
         return false;
     }
 
@@ -318,8 +298,6 @@ public class Menu {
     }
 
     private void listAccounts(boolean menu) {
-        String option = "-1";
-
         if (!list.isEmpty()) {
             for (Account i : list) {
                 System.out.println("\nNúmero de conta: " + i.getAccountNumber());
@@ -346,7 +324,6 @@ public class Menu {
     }
 
     private void deleteAccount(boolean menu) {
-        String option = "-1";
         String accountNumberLocal;
 
         if (!list.isEmpty()) {
@@ -379,7 +356,7 @@ public class Menu {
     }
 
     private void createAccountEmptyList() throws NumberFormatException {
-        String option;
+        String option = "-1";
         System.out.println("\nNão existem contas!");
         do {
             if (valid) {
@@ -391,12 +368,9 @@ public class Menu {
 
             option = input.nextLine();
 
-            if (!Parse.tryParseInt(option)) {
-                valid = false;
-            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                valid = true;
-            }
-        } while (!valid);
+        } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
+        valid = true;
+
         if (Integer.parseInt(option) == 1) {
             createAccount(false, this.accountNumber);
             this.accountNumber++;
@@ -404,7 +378,6 @@ public class Menu {
     }
 
     private void withdraw(boolean menu) {
-        String option = "-1";
         String accountNumberLocal;
 
         if (!list.isEmpty()) {
@@ -436,7 +409,6 @@ public class Menu {
     }
 
     private void deposit(boolean menu) {
-        String option = "-1";
         String accountNumberLocal;
 
         if (!list.isEmpty()) {
@@ -478,20 +450,15 @@ public class Menu {
             }
 
             option = input.nextLine();
-
-            if (!Parse.tryParseInt(option)) {
-                valid = false;
-            } else if (Integer.parseInt(option) >= 1 && Integer.parseInt(option) <= 2) {
-                valid = true;
-            }
-        } while (!valid);
+        } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
+        valid=true;
+        
         if (Integer.parseInt(option) == 1) {
             listAccounts(false);
         }
     }
 
     private void checkBalance(boolean menu) {
-        String option = "-1";
         String accountNumberLocal;
 
         if (!list.isEmpty()) {
@@ -531,7 +498,6 @@ public class Menu {
     }
 
     private void checkNumberTransactions(boolean menu) {
-        String option = "-1";
         String accountNumberLocal;
 
         if (!list.isEmpty()) {
@@ -569,7 +535,6 @@ public class Menu {
     }
 
     private void checkAccountDetails(boolean menu) {
-        String option = "-1";
         String accountNumberLocal;
 
         if (!list.isEmpty()) {
