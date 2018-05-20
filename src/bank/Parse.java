@@ -13,8 +13,11 @@ public class Parse {
 
     public static boolean tryParseDouble(String value) {
         try {
-            Double.parseDouble(value);
-            return true;
+            if (Double.isFinite(Double.parseDouble(value))) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (NumberFormatException e) {
             return false;
         }

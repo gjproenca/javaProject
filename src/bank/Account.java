@@ -24,7 +24,6 @@ public class Account {
     private double balance = 0;
     private double credit = 0;
     private int accountTransactionsCounter = 0;
-    private boolean valid = true;
 
     //getters and setters
     public int getAccountNumber() {
@@ -67,33 +66,33 @@ public class Account {
         return accountTransactionsCounter;
     }
 
-    public void setAccountTransactionsCounter(String accountTransactionsCounter){
+    public void setAccountTransactionsCounter(String accountTransactionsCounter) {
         this.accountTransactionsCounter = Integer.parseInt(accountTransactionsCounter);
     }
-    
+
     //methods
     public void deposit() {
         String amount = "0";
-        boolean valid = true;
+        boolean isValid = true;
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nInsira o montante a depositar: ");
                 amount = input.nextLine();
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                System.out.print(Color.ANSI_RED + "Montante inserido invalido, insira um montante valido: " + Color.ANSI_RESET);
                 amount = input.nextLine();
             }
         } while (!Parse.tryParseDouble(amount));
 
         if (Double.parseDouble(amount) < 0) {
-            System.out.println("\nNão foi possível realizar a operação, montante inválido!");
-        } else if (Double.parseDouble(amount) < 0) {
-            System.out.println("\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!");
-        } else if (Double.parseDouble(amount) >= 0) {
+            System.out.println(Color.ANSI_RED + "\nNão foi possível realizar a operação, montante inválido!" + Color.ANSI_RESET);
+        } else if (Double.isInfinite(Double.parseDouble(amount))) {
+            System.out.println(Color.ANSI_RED + "\nNão foi possível realizar a operação, o montante excede o valor de depósito possível!" + Color.ANSI_RESET);
+        } else {
             balance += Double.parseDouble(amount);
-            System.out.println("\nOperação efetuada com sucesso!");
+            System.out.println(Color.ANSI_GREEN + "\nOperação efetuada com sucesso!" + Color.ANSI_RESET);
         }
 
         accountTransactionsCounter += 1;
@@ -101,26 +100,26 @@ public class Account {
 
     public void withdraw() {
         String amount = "0";
-        boolean valid = true;
+        boolean isValid = true;
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nInsira o montante a levantar: ");
                 amount = input.nextLine();
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                System.out.print(Color.ANSI_RED + "Montante inserido invalido, insira um montante valido: " + Color.ANSI_RESET);
                 amount = input.nextLine();
             }
         } while (!Parse.tryParseDouble(amount));
 
         if (Double.parseDouble(amount) < 0) {
-            System.out.println("\nNão foi possível realizar a operação, montante introduzido iválido!");
+            System.out.println(Color.ANSI_RED + "\nNão foi possível realizar a operação, montante introduzido iválido!" + Color.ANSI_RESET);
         } else if ((Double.parseDouble(amount) > (balance + credit)) && (Double.parseDouble(amount) >= 0)) {
-            System.out.println("\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!");
+            System.out.println(Color.ANSI_RED + "\nNão foi possível realizar a operação, o montante excede o valor em conta + crédito!" + Color.ANSI_RESET);
         } else if (Double.parseDouble(amount) >= 0) {
             balance -= Double.parseDouble(amount);
-            System.out.println("\nOperação efetuada com sucesso!");
+            System.out.println(Color.ANSI_GREEN + "\nOperação efetuada com sucesso!" + Color.ANSI_RESET);
         }
 
         accountTransactionsCounter += 1;

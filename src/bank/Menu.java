@@ -15,26 +15,26 @@ public class Menu {
 
     private Scanner input = new Scanner(System.in);
     private ArrayList<Account> list = new ArrayList<>();
-    private boolean valid = true;
+    private boolean isValid = true;
     private int accountNumber = 1;
 
     public void open() {
         String option = "-1";
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.println("\nEscolha uma opção:");
                 options();
-                valid = false;
+                isValid = false;
             } else {
-                System.out.println("Opção inserida inválida, escolha uma opção válida:");
+                System.out.println("\n" + Color.ANSI_RED + "Opção inserida inválida, escolha uma opção válida:" + Color.ANSI_RESET);
                 options();
             }
 
             option = input.nextLine();
 
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 0 || Integer.parseInt(option) > 9));
-        valid = true;
+        isValid = true;
 
         switch (Integer.parseInt(option)) {
             case 1:
@@ -84,7 +84,7 @@ public class Menu {
     }
 
     private void createAccount(boolean menu, int accountNumber) {
-        String custumerName;
+        String custumerName = "";
         String custumerPhoneNumber = "9";
         String option = "-1";
         String nib = "";
@@ -92,42 +92,42 @@ public class Menu {
         String credit;
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nInsira o nome do cliente: ");
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("\nNome inválido, insira o nome do cliente: ");
+                System.out.print(Color.ANSI_RED + "Nome inválido, insira o nome do cliente: " + Color.ANSI_RESET);
             }
             custumerName = input.nextLine();
-        } while (custumerName.isEmpty());
-        valid = true;
+        } while (custumerName.isEmpty() || !custumerName.matches("[a-zA-z]")); //FIX: regex
+        isValid = true;
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nDeseja (1 - Inserir número de telefone) ou (2 - Gerar número de telefone): ");
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("\nOpção inserida inválida, deseja (1 - Inserir número de telefone) ou (2 - Gerar número de telefone): ");
+                System.out.print(Color.ANSI_RED + "Opção inserida inválida, deseja (1 - Inserir número de telefone) ou (2 - Gerar número de telefone): " + Color.ANSI_RESET);
             }
 
             option = input.nextLine();
 
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-        valid = true;
+        isValid = true;
 
         switch (Integer.parseInt(option)) {
             case 1:
                 do {
-                    if (valid) {
+                    if (isValid) {
                         System.out.print("\nInsira um número com 9 algarismos: ");
                         custumerPhoneNumber = input.nextLine();
-                        valid = false;
+                        isValid = false;
                     } else {
-                        System.out.print("Número inválido, insira um número com 9 algarismos: ");
+                        System.out.print(Color.ANSI_RED + "Número inválido, insira um número com 9 algarismos: " + Color.ANSI_RESET);
                         custumerPhoneNumber = input.nextLine();
                     }
                 } while (!Parse.tryParseLong(custumerPhoneNumber) || custumerPhoneNumber.length() != 9);
-                valid = true;
+                isValid = true;
                 break;
             case 2:
                 for (int i = 0; i < 8; i++) {
@@ -139,31 +139,31 @@ public class Menu {
         }
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nDeseja (1 - Inserir NIB) ou (2 - Gerar NIB): ");
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("\nOpção inserida inválida, deseja (1 - Inserir NIB) ou (2 - Gerar NIB): ");
+                System.out.print(Color.ANSI_RED + "Opção inserida inválida, deseja (1 - Inserir NIB) ou (2 - Gerar NIB): " + Color.ANSI_RESET);
             }
 
             option = input.nextLine();
 
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-        valid = true;
+        isValid = true;
 
         switch (Integer.parseInt(option)) {
             case 1:
                 do {
-                    if (valid) {
+                    if (isValid) {
                         System.out.print("\nInsira o NIB: ");
                         nib = input.nextLine();
-                        valid = false;
+                        isValid = false;
                     } else {
-                        System.out.print("NIB inválido, insira um nib com 21 algarismos: ");
+                        System.out.print(Color.ANSI_RED + "NIB inválido, insira um nib com 21 algarismos: " + Color.ANSI_RESET);
                         nib = input.nextLine();
                     }
                 } while (!Parse.tryParseDouble(nib) || nib.length() != 21 || Double.parseDouble(nib) % 1 != 0);
-                valid = true;
+                isValid = true;
                 break;
             case 2:
                 for (int i = 0; i < 21; i++) {
@@ -175,28 +175,28 @@ public class Menu {
         }
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nInsira um montante para o saldo: ");
                 balance = input.nextLine();
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                System.out.print(Color.ANSI_RED + "Montante inserido invalido, insira um montante valido: " + Color.ANSI_RESET);
                 balance = input.nextLine();
             }
         } while (!Parse.tryParseDouble(balance) || Double.parseDouble(balance) < 0);
-        valid = true;
+        isValid = true;
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nInsira um montante para o credito: ");
                 credit = input.nextLine();
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Montante inserido invalido, insira um montante valido: ");
+                System.out.print(Color.ANSI_RED + "Montante inserido invalido, insira um montante valido: " + Color.ANSI_RESET);
                 credit = input.nextLine();
             }
         } while (!Parse.tryParseDouble(credit) || Double.parseDouble(credit) < 0);
-        valid = true;
+        isValid = true;
 
         list.add(new Account(accountNumber, new Client(custumerName, custumerPhoneNumber), nib, Double.parseDouble(balance), Double.parseDouble(credit)));
 
@@ -215,11 +215,11 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
@@ -229,17 +229,17 @@ public class Menu {
                 list.remove(accountIndex(accountNumberLocal));
                 createAccount(false, Integer.parseInt(accountNumberLocal));
                 do {
-                    if (valid) {
+                    if (isValid) {
                         System.out.print("\nDeseja repor o contador de movimentos (1 - sim/2 - não)? ");
-                        valid = false;
+                        isValid = false;
                     } else {
-                        System.out.print("Opção inserida inválida, deseja repor o contador de movimentos (1 - sim/2 - não)? ");
+                        System.out.print(Color.ANSI_RED + "Opção inserida inválida, deseja repor o contador de movimentos (1 - sim/2 - não)? " + Color.ANSI_RESET);
                     }
 
                     option = input.nextLine();
 
                 } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-                valid = true;
+                isValid = true;
 
                 if (Integer.parseInt(option) == 1) {
                     for (Account i : list) {
@@ -253,7 +253,7 @@ public class Menu {
                 editAccount(false);
             }
 
-            valid = true;
+            isValid = true;
         } else {
             createAccountEmptyList();
         }
@@ -267,16 +267,16 @@ public class Menu {
         String option = "-1";
 
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nEsta conta não existe, deseja inserir um novo número de conta (1 - sim/2 - não)? ");
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2 - não)? ");
+                System.out.print(Color.ANSI_RED + "Opção inserida inválida, deseja inserir um novo número de conta (1 - sim/2 - não)? " + Color.ANSI_RESET);
             }
 
             option = input.nextLine();
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-        valid = true;
+        isValid = true;
 
         if (Integer.parseInt(option) == 1) {
             return true;
@@ -324,7 +324,7 @@ public class Menu {
     }
 
     private void pause() {
-        System.out.print("\nPrima Enter para continuar...");
+        System.out.print(Color.ANSI_YELLOW + "\nPrima Enter para continuar..." + Color.ANSI_RESET);
         input.nextLine();
     }
 
@@ -335,18 +335,18 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
 
             if (accountExists(accountNumberLocal)) {
                 list.remove(accountIndex(accountNumberLocal));
-                System.out.println("\nConta apagada com sucesso!");
+                System.out.println(Color.ANSI_GREEN + "\nConta apagada com sucesso!" + Color.ANSI_RESET);
                 pause();
             } else if (insertNewAccountNumberOption()) {
                 deleteAccount(false);
@@ -364,17 +364,17 @@ public class Menu {
         String option = "-1";
         System.out.println("\nNão existem contas!");
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nDeseja criar uma conta (1 - sim/2-não)? ");
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Opção inserida inválida, Deseja criar uma conta (1 - sim/2-não)? ");
+                System.out.print(Color.ANSI_RED + "Opção inserida inválida, deseja criar uma conta (1 - sim/2-não)? " + Color.ANSI_RESET);
             }
 
             option = input.nextLine();
 
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-        valid = true;
+        isValid = true;
 
         if (Integer.parseInt(option) == 1) {
             createAccount(false, this.accountNumber);
@@ -389,11 +389,11 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
@@ -420,11 +420,11 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
@@ -447,16 +447,16 @@ public class Menu {
     private void optionListAccounts() throws NumberFormatException {
         String option;
         do {
-            if (valid) {
+            if (isValid) {
                 System.out.print("\nDeseja listar as contas (1 - sim/2 - não): ");
-                valid = false;
+                isValid = false;
             } else {
-                System.out.print("Opção inserida inválida, escolha uma opção válida, prima a tecla 1 - sim ou 2 - não: ");
+                System.out.print(Color.ANSI_RED + "Opção inserida inválida, deseja listar as contas (1 - sim/2 - não): " + Color.ANSI_RESET);
             }
 
             option = input.nextLine();
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-        valid = true;
+        isValid = true;
 
         if (Integer.parseInt(option) == 1) {
             listAccounts(false);
@@ -470,11 +470,11 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
@@ -509,11 +509,11 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
@@ -546,11 +546,11 @@ public class Menu {
             optionListAccounts();
 
             do {
-                if (valid) {
+                if (isValid) {
                     System.out.print("\nInsira o número: ");
                     accountNumberLocal = input.nextLine();
                 } else {
-                    System.out.print("Valor inserido inválido, insira um valor válido: ");
+                    System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
