@@ -1,4 +1,4 @@
-package bankapp;
+package bank;
 
 public class Client {
 

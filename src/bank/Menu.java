@@ -1,17 +1,22 @@
-package bankapp;
+package bank;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
 
-    private Scanner input = new Scanner(System.in);
-    private boolean valid = true;
-    private ArrayList<Account> list = new ArrayList<>();
-    private int accountNumber = 1;
-
     public Menu() {
+        open();
     }
+
+    public static void main(String[] args) {
+        new Menu();
+    }
+
+    private Scanner input = new Scanner(System.in);
+    private ArrayList<Account> list = new ArrayList<>();
+    private boolean valid = true;
+    private int accountNumber = 1;
 
     public void open() {
         String option = "-1";
@@ -451,8 +456,8 @@ public class Menu {
 
             option = input.nextLine();
         } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
-        valid=true;
-        
+        valid = true;
+
         if (Integer.parseInt(option) == 1) {
             listAccounts(false);
         }
