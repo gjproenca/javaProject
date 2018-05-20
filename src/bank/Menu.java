@@ -2,6 +2,7 @@ package bank;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Menu {
 
@@ -99,7 +100,7 @@ public class Menu {
                 System.out.print(Color.ANSI_RED + "Nome inválido, insira o nome do cliente: " + Color.ANSI_RESET);
             }
             custumerName = input.nextLine();
-        } while (custumerName.isEmpty() || !custumerName.matches("[a-zA-z]")); //FIX: regex
+        } while (!Pattern.matches("^[^\\s\\d\\W]{1,}\\s[^\\s\\d\\W]{1,}[^\\s\\d\\W]$", custumerName));
         isValid = true;
 
         do {
@@ -119,14 +120,14 @@ public class Menu {
             case 1:
                 do {
                     if (isValid) {
-                        System.out.print("\nInsira um número com 9 algarismos: ");
+                        System.out.print("\nInsira um número de telemóvel: ");
                         custumerPhoneNumber = input.nextLine();
                         isValid = false;
                     } else {
                         System.out.print(Color.ANSI_RED + "Número inválido, insira um número com 9 algarismos: " + Color.ANSI_RESET);
                         custumerPhoneNumber = input.nextLine();
                     }
-                } while (!Parse.tryParseLong(custumerPhoneNumber) || custumerPhoneNumber.length() != 9);
+                } while (!Pattern.matches("^[9][1236]\\d{7}$", custumerPhoneNumber));
                 isValid = true;
                 break;
             case 2:
@@ -162,7 +163,7 @@ public class Menu {
                         System.out.print(Color.ANSI_RED + "NIB inválido, insira um nib com 21 algarismos: " + Color.ANSI_RESET);
                         nib = input.nextLine();
                     }
-                } while (!Parse.tryParseDouble(nib) || nib.length() != 21 || Double.parseDouble(nib) % 1 != 0);
+                } while (!Pattern.matches("^\\d{21}$", nib));
                 isValid = true;
                 break;
             case 2:
