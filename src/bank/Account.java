@@ -13,9 +13,6 @@ public class Account {
         this.credit = credit;
     }
 
-    public Account() {
-    }
-
     //atributes
     private final Scanner input = new Scanner(System.in);
     private int accountNumber = 0;

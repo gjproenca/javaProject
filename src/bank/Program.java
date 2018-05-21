@@ -1,17 +1,19 @@
 package bank;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Menu {
+public class Program {
 
-    public Menu() {
+    public Program() {
         open();
     }
 
     public static void main(String[] args) {
-        new Menu();
+        new Program();
     }
 
     private Scanner input = new Scanner(System.in);
@@ -79,9 +81,9 @@ public class Menu {
         System.out.println("6 - Depositar dinheiro");
         System.out.println("\n7 - Consultar saldo");
         System.out.println("8 - Consultar número de movimentos");
-        System.out.println("9 - Consultar detalhes da conta");
+        System.out.println("9 - Consultar detalhes");
         System.out.println("\n0 - Sair");
-        System.out.print("\nOpção: ");
+        System.out.print(Color.ANSI_YELLOW + "\nOpção: " + Color.ANSI_RESET);
     }
 
     private void createAccount(boolean menu, int accountNumber) {
@@ -94,10 +96,10 @@ public class Menu {
 
         do {
             if (isValid) {
-                System.out.print("\nInsira o nome do cliente: ");
+                System.out.print("\nInsira o primeiro e último nome separado por um espaço (ex:John Doe): ");
                 isValid = false;
             } else {
-                System.out.print(Color.ANSI_RED + "Nome inválido, insira o nome do cliente: " + Color.ANSI_RESET);
+                System.out.print(Color.ANSI_RED + "Nome inválido, insira o primeiro e último nome separado por um espaço (ex:John Doe): " + Color.ANSI_RESET);
             }
             custumerName = input.nextLine();
         } while (!Pattern.matches("^[^\\s\\d\\W]{1,}\\s[^\\s\\d\\W]{1,}[^\\s\\d\\W]$", custumerName));
@@ -124,14 +126,15 @@ public class Menu {
                         custumerPhoneNumber = input.nextLine();
                         isValid = false;
                     } else {
-                        System.out.print(Color.ANSI_RED + "Número inválido, insira um número com 9 algarismos: " + Color.ANSI_RESET);
+                        System.out.print(Color.ANSI_RED + "Número inválido, insira um número de telemóvel: " + Color.ANSI_RESET);
                         custumerPhoneNumber = input.nextLine();
                     }
                 } while (!Pattern.matches("^[9][1236]\\d{7}$", custumerPhoneNumber));
                 isValid = true;
                 break;
             case 2:
-                for (int i = 0; i < 8; i++) {
+                custumerPhoneNumber += (int) (Math.random() * 3) + 1;
+                for (int i = 0; i < 7; i++) {
                     custumerPhoneNumber += (int) (Math.random() * 9) + 0;
                 }
                 break;
@@ -219,11 +222,13 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 accountTransactionsCounter += list.get(accountIndex(accountNumberLocal)).getAccountTransactionsCounter();
@@ -242,7 +247,7 @@ public class Menu {
                 } while (!Parse.tryParseInt(option) || (Integer.parseInt(option) < 1 || Integer.parseInt(option) > 2));
                 isValid = true;
 
-                if (Integer.parseInt(option) == 1) {
+                if (Integer.parseInt(option) == 2) {
                     for (Account i : list) {
                         if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
                             i.setAccountTransactionsCounter(accountTransactionsCounter);
@@ -305,6 +310,9 @@ public class Menu {
 
     private void listAccounts(boolean menu) {
         if (!list.isEmpty()) {
+            //order list(lambda expression)
+            Collections.sort(list, (Account account1, Account account2) -> Integer.toString(account1.getAccountNumber()).compareTo(Integer.toString(account2.getAccountNumber())));
+
             for (Account i : list) {
                 System.out.println("\nNúmero de conta: " + i.getAccountNumber());
                 System.out.println("Nome do cliente: " + i.getClientDetails().getCustumerName());
@@ -339,11 +347,13 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 list.remove(accountIndex(accountNumberLocal));
@@ -393,11 +403,13 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 list.get(accountIndex(accountNumberLocal)).withdraw();
@@ -424,11 +436,13 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 list.get(accountIndex(accountNumberLocal)).deposit();
@@ -474,16 +488,19 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número da conta: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 for (Account i : list) {
                     if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
-                        System.out.println("\nNIB: " + i.getNib());
+                        System.out.println("\nNome do cliente: " + i.getClientDetails().getCustumerName());
+                        System.out.println("NIB: " + i.getNib());
                         System.out.println("Saldo: " + i.getBalance());
                         System.out.println("Plafond de crédito: " + i.getCredit());
                         System.out.println("Saldo total: " + (i.getBalance() + i.getCredit()));
@@ -513,16 +530,19 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 for (Account i : list) {
                     if (i.getAccountNumber() == Integer.parseInt(accountNumberLocal)) {
-                        System.out.println("\nNIB: " + i.getNib());
+                        System.out.println("\nNome do cliente: " + i.getClientDetails().getCustumerName());
+                        System.out.println("NIB: " + i.getNib());
                         System.out.println("Total de movimentos: " + i.getAccountTransactionsCounter());
                         break;
                     }
@@ -550,11 +570,13 @@ public class Menu {
                 if (isValid) {
                     System.out.print("\nInsira o número: ");
                     accountNumberLocal = input.nextLine();
+                    isValid = false;
                 } else {
                     System.out.print(Color.ANSI_RED + "Valor inserido inválido, insira um valor válido: " + Color.ANSI_RESET);
                     accountNumberLocal = input.nextLine();
                 }
             } while (!Parse.tryParseInt(accountNumberLocal));
+            isValid = true;
 
             if (accountExists(accountNumberLocal)) {
                 for (Account i : list) {

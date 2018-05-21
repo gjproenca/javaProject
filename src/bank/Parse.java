@@ -23,12 +23,4 @@ public class Parse {
         }
     }
 
-    public static boolean tryParseLong(String value) {
-        try {
-            Long.parseLong(value);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 }
